@@ -1,0 +1,371 @@
+/***
+    The new CSS reset - version 1.7.3 (last updated 7.8.2022)
+    GitHub page: https://github.com/elad2412/the-new-css-reset
+***/
+
+/*
+    Remove all the styles of the "User-Agent-Stylesheet", except for the 'display' property
+    - The "symbol *" part is to solve Firefox SVG sprite bug
+ */
+ *:where(:not(html, iframe, canvas, img, svg, video, audio):not(svg *, symbol *)) {
+    all: unset;
+    display: revert;
+}
+
+/* Preferred box-sizing value */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+/* Reapply the pointer cursor for anchor tags */
+a, button {
+    cursor: revert;
+}
+
+/* Remove list styles (bullets/numbers) */
+ol, ul, menu {
+    list-style: none;
+}
+
+/* For images to not be able to exceed their container */
+img {
+    max-width: 100%;
+}
+
+/* removes spacing between cells in tables */
+table {
+    border-collapse: collapse;
+}
+
+/* Safari - solving issue when using user-select:none on the <body> text input doesn't working */
+input, textarea {
+    -webkit-user-select: auto;
+}
+
+/* revert the 'white-space' property for textarea elements on Safari */
+textarea {
+    white-space: revert;
+}
+
+/* minimum style to allow to style meter element */
+meter {
+    -webkit-appearance: revert;
+    appearance: revert;
+}
+
+/* reset default text opacity of input placeholder */
+::placeholder {
+    color: unset;
+}
+
+/* fix the feature of 'hidden' attribute.
+   display:revert; revert to element instead of attribute */
+:where([hidden]) {
+    display: none;
+}
+
+/* revert for bug in Chromium browsers
+   - fix for the content editable attribute will work properly.
+   - webkit-user-select: auto; added for Safari in case of using user-select:none on wrapper element*/
+:where([contenteditable]:not([contenteditable="false"])) {
+    -moz-user-modify: read-write;
+    -webkit-user-modify: read-write;
+    overflow-wrap: break-word;
+    -webkit-line-break: after-white-space;
+    -webkit-user-select: auto;
+}
+
+/* apply back the draggable feature - exist only in Chromium and Safari */
+:where([draggable="true"]) {
+    -webkit-user-drag: element;
+}
+
+
+
+
+
+
+@import url('https://fonts.googleapis.com/css2?family=Imprima&display=swap');
+
+:root {
+    --orange: #F33737;
+    --grey: #9f9f9f; 
+}
+body {
+    font-family: 'Imprima', sans-serif;
+    background: #f5f5f5;
+}
+
+h1 { font-size: 25px }
+h2 { font-size: 22px }
+h3 { font-size: 20px }
+h4 { font-size: 18px }
+.grey { color: var(--grey)}
+.small { font-size: 14px }
+.medium { font-size: 20px }
+
+sidebar {
+    position: absolute;
+    top: 60px;
+    display: none;
+    flex-direction: column;
+    /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px; */
+    background: #f5f5f5;
+    text-align: left;
+    width: 80%;
+    height: 100%;
+}
+
+    sidebar h4 {
+        padding: 1rem 1.5rem;
+        background: #eee;
+    }
+
+    sidebar button {
+        padding: .75rem 1.5rem;
+        background: none;
+        border-top: 1px solid #eee;
+        border-radius: 0;
+        box-shadow: none;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    sidebar .new-project {
+        justify-content: left;
+        gap: 10px;
+    }
+
+.container {
+    margin: 0 10%;
+    justify-self: center;
+    text-align: center;
+}
+
+nav { 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 0;
+}
+
+.logotype {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .logotype button {
+        box-shadow: none;
+        color: var(--orange);
+    }
+
+    .logotype button:hover {
+        color: black;
+    }
+
+.theme-switch {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+    .sun {
+        color: var(--orange);
+        font-size: 14px;
+    }
+
+    .moon {
+        font-size: 13px;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 52px;
+        height: 27px;
+    }
+
+    .switch input { 
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #fff;
+        border: .5px solid #3b3b3b;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 18px;
+        width: 18px;
+        left: 4px;
+        bottom: 4px;
+        background-color: black;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: var(--grey);
+    }
+  
+    input:focus + .slider {
+        box-shadow: 0 0 1px var(--grey);
+    }
+  
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+    
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+    
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+section {
+    background: white;
+    padding: 1.5rem 1rem;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+}
+
+.title-card, .current-timer, .clock-display {
+    margin-bottom: 1rem;
+}
+    .clock-display {
+        font-size: 60px;
+    }
+
+    .title-card p {
+        font-style: italic;
+    }
+
+    .hours, .minutes, .seconds {
+        font-size: 50px;
+    }
+
+    .timer-buttons {
+        display: flex;
+        flex-direction: row;
+        gap: 3rem;
+        justify-content: center;
+    }
+
+    .timer-buttons li button {
+        font-size: 22px;
+        padding: .5rem .7rem;
+        margin-bottom: .25rem;
+    }
+
+button {
+    background: #f5f5f5;
+    padding: .25rem .5rem;
+    border: 1px solid #e5e5e5;
+    border-radius: .35rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+}
+
+    button:hover {
+        color: var(--orange);
+        box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+    }
+
+.total-time {
+    margin: 2rem 0 1.5rem 0;
+}
+
+.list-entry {
+    margin-bottom: 1rem;
+}
+
+.list-entry section {
+    padding: 1rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+    .entry-info {
+        text-align: left;
+    }
+
+    .entry-buttons {
+        display: flex;
+        gap: .5rem;
+        padding: .5rem .35;
+    }
+
+    .entry-buttons p {
+        font-size: 12px;
+        margin-top: .25rem;
+    }
+
+footer {
+    color: var(--grey);
+    padding: 1rem 0 1.5rem 0;
+}
+
+
+
+@media screen and (min-width: 350px) and (max-width: 449px) {
+
+}
+
+@media screen and (min-width: 1200px) {
+
+    body {
+        padding: 0 5%;
+    }
+
+    .container {
+        display: flex;
+        gap: 25px;
+        margin: 65px auto 0 auto;
+        max-width: 1500px;
+    }
+
+    sidebar {
+        position: static;
+        display: flex;
+        flex: 1;
+    }
+
+        sidebar h4 {
+            border-radius: 10px 10px 0 0;
+        }
+
+    nav {
+        position: absolute;
+        top: 0px;
+        left: 0;
+        right: 0;
+        width: 90%;
+        max-width: 1500px;
+        margin: 0 auto;
+    }
+
+    main {
+        flex: 2;
+    }
+}

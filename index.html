@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time keeper</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/d25584b795.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="container">
+
+        <sidebar>
+            <h4>Project Directory</h4>
+            <button class="new-project grey">
+                <i class="far fa-folder-open"></i>
+                <p>Start a new project</p>
+            </button>
+            <button>
+                <p>Project time keeper</p>
+                <p class="grey">03h 20m 16s</p>
+            </button>
+            <button>
+                <p>Monkey Island Battleship game</p>
+                <p class="grey">21h 12m 52s</p>
+            </button>
+            <button>
+                <p>JavaScript calculator</p>
+                <p class="grey">11h 53m 09s</p>
+            </button>
+        </sidebar>
+       
+        <main>
+            <nav>
+                <div class="logotype">
+                    <button class="menu">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h2>Project Time Keeper</h2>
+                </div>
+                <div class="theme-switch">
+                    <div class="sun"><i class="fas fa-sun"></i></div>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                    <div class="moon"><i class="fas fa-moon"></i></div>
+                </div>
+            </nav>
+
+            <div class="content">
+                <section class="title-card">
+                    <h1>Monkey Island Battleship game</h1>
+                    <p class="grey" id="action-item">Adding music & sound effects to gameplay</p>
+                </section>
+
+                <section class="current-timer">
+                    <div class="clock-display">00:00:00</div>
+                    <ul class="timer-buttons">
+                        <li>
+                            <button class="start-button">
+                                <i class="fas fa-play" id="play-icon"></i>
+                            </button>
+                            <!-- <i class="fas fa-pause"></i> -->
+                            <p class="small" id="start-p">start</p>
+                        </li>
+                        <li>
+                            <button class="add-button">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                            <p class="small">add</p>
+                        </li>
+                        <li>
+                            <button class="reset-button">
+                                <i class="fas fa-redo"></i>
+                            </button>
+                            <p class="small">reset</p>
+                        </li>
+                    </ul>
+                </section>
+
+                <h3 class="total-time">Total time recorded: 03h 10m 12s</h3>
+                <!-- <p class="no-entry"></p> -->
+                <ul class="list">
+                    <li class="list-entry">
+                        <section>
+                            <div class="entry-info">
+                                <p>Creating JavaScript logic</p>
+                                <p class="grey">02h 35m 16s</p>
+                            </div>
+                            <ul class="entry-buttons">
+                                <li>
+                                    <button><i class="fas fa-edit"></i></button>
+                                </li>
+                                <li>
+                                    <button class="delete-button">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                        </section>
+                    </li>
+                </ul>
+            </div>
+
+            <footer>
+                <p>Made with love by Bryan Fink <i>c</i> 2022</p>
+            </footer>
+        </main>
+    </div>
+
+</body>
+<script src="script.js"></script>
+</html>
