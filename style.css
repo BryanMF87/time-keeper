@@ -21,7 +21,7 @@
 
 /* Reapply the pointer cursor for anchor tags */
 a, button {
-    cursor: revert;
+    cursor: pointer;
 }
 
 /* Remove list styles (bullets/numbers) */
@@ -109,12 +109,12 @@ h4 { font-size: 18px }
 sidebar {
     position: absolute;
     top: 60px;
-    display: none;
+    display: flex;
     flex-direction: column;
-    /* box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px; */
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
     background: #f5f5f5;
     text-align: left;
-    width: 80%;
+    width: 90%;
     height: 100%;
 }
 
@@ -140,7 +140,7 @@ sidebar {
     }
 
 .container {
-    margin: 0 10%;
+    margin: 0 5%;
     justify-self: center;
     text-align: center;
 }
@@ -158,6 +158,10 @@ nav {
     align-items: center;
     gap: 10px;
 }
+
+    .logotype h2 {
+        display: none;
+    }
 
     .logotype button {
         box-shadow: none;
@@ -258,8 +262,18 @@ section {
         font-size: 60px;
     }
 
-    .title-card p {
+    .title-card div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 5px;
+        margin-top: .5rem;
         font-style: italic;
+        cursor: pointer;
+    }
+
+    .title-card div:hover {
+        opacity: 80%;
     }
 
     .hours, .minutes, .seconds {
@@ -296,11 +310,11 @@ button {
     margin: 2rem 0 1.5rem 0;
 }
 
-.list-entry {
+.list-item {
     margin-bottom: 1rem;
 }
 
-.list-entry section {
+.list-item section {
     padding: 1rem 1.5rem;
     display: flex;
     justify-content: space-between;
@@ -328,8 +342,10 @@ footer {
 
 
 
-@media screen and (min-width: 350px) and (max-width: 449px) {
-
+@media screen and (min-width: 400px) {
+    .logotype h2 {
+        display: block;
+    }
 }
 
 @media screen and (min-width: 1200px) {
@@ -347,7 +363,6 @@ footer {
 
     sidebar {
         position: static;
-        display: flex;
         flex: 1;
     }
 

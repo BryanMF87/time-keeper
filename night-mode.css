@@ -299,11 +299,11 @@ button {
     margin: 2rem 0 1.5rem 0;
 }
 
-.list-entry {
+.list-item {
     margin-bottom: 1rem;
 }
 
-.list-entry section {
+.list-item section {
     padding: 1rem 1.5rem;
     display: flex;
     justify-content: space-between;
