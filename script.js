@@ -1,4 +1,12 @@
 
+
+const projects = JSON.parse(localStorage.getItem("projects") || "[]");
+
+const saveToStorage = () => {
+    localStorage.setItem("projects", JSON.stringify(projects));
+};
+
+
 // sidebar toggle
 
 const menuBtn = document.querySelector(".menu");
@@ -11,78 +19,6 @@ const toggleMenu = () => {
 };
 
 menuBtn.addEventListener("click", toggleMenu);
-
-
-
-
-
-// push new project input to local storage
-
-const newProjectBtn = document.querySelector(".new-project");
-const contentTitle = document.querySelector(".title-card h1");
-const projectArray = [];
-const currentProject = {};
-
-
-newProjectBtn.addEventListener("click", () => {
-
-
-    // get the title
-    let newProjectTitle = prompt("What will your cool new project be called?");
-
-    if (newProjectTitle === null) { return }
-
-    while (newProjectTitle.length < 1 || newProjectTitle.length > 25) {
-    newProjectTitle = prompt("Title must be between 1 and 25 characters long.")
-    }
-
-    for(let i = 0; i < projectArray.length; i++) {
-        while(projectArray[i].title === newProjectTitle) {
-            newProjectTitle = prompt("That project already exists., Try a different name")
-        }
-    }
-
-
-    // get the action
-    let newProjectAction = prompt("What is your first to-do Item?", "Set up project");
-
-    if(newProjectAction === null) { return };
-
-    while(newProjectAction.length < 1 || newProjectAction > 25) {
-        newProjectAction = prompt("Action must be between 1 and 25 characters long.")
-    }
-
-
-    // push it to localStorage
-    currentProject.title = getTitle.newProjectTitle;
-    console.log(getTitle.newProjectTitle)
-    currentProject.action = getAction.newProjectAction;
-    currentProject.time = "00:00:00";
-
-    projectArray.push(currentProject)
-
-    window.localStorage.setItem('project-list', JSON.stringify(projectArray));
-
-    updateSidebar();
-});
-
-
-
-// Map project-list to sidebar as buttons
-
-const updateSidebar = () => {
-
-    const newProjectEntry = document.createElement("button");
-
-    // newProjectEntry.innerHTML =
-    //     `<p>${newProjectTitle}</p>
-    //     <p class="grey">00:00:00</p>`;
-
-    // sideBar.appendChild(newProjectEntry);
-};
-    
-
-
 
 
 
@@ -104,28 +40,187 @@ themeSwitcher.addEventListener("click", () => {
 
 
 
-// Edit action title
-let action = document.getElementById("action");
+// Create new project through prompt input
 
-action.addEventListener("click", () => {
-    newActionTitle = prompt("What is your current action-item?", action.innerHTML);
-    // User cannot 'cancel'
-    newActionTitle === null ? newActionTitle = action.innerHTML : false;
-    // validate
-    while(newActionTitle.length < 1 || newActionTitle.length > 25) {
-        newActionTitle = prompt("Title must be between 1 and 25 characters long.")
+const newProjectBtn = document.querySelector(".new-project");
+
+newProjectBtn.addEventListener("click", () => {
+
+    // get the title
+    let newProjectTitle = prompt("What will your cool new project be called?");
+
+    if (newProjectTitle === null) { return };
+
+    while (newProjectTitle.length < 1 || newProjectTitle.length > 25) {
+    newProjectTitle = prompt("Title must be between 1 and 25 characters long.")
     };
-    
-    action.innerHTML = newActionTitle;
+
+    projects.find(item => {
+        while(item.title === newProjectTitle) {
+            newProjectTitle = prompt("That project already exists., Try a different name")
+        }
+    });
+
+
+    // get the action
+    let newProjectAction = prompt("What is your first to-do Item?", "Set up project");
+
+    if(newProjectAction === null) { return };
+
+    while(newProjectAction.length < 1 || newProjectAction > 25) {
+        newProjectAction = prompt("Action must be between 1 and 25 characters long.")
+    };
+
+    addProject(newProjectTitle, newProjectAction);
 });
 
 
 
 
 
+// push new project input to local storage
+
+const addProject = (newProjectTitle, newProjectAction) => {
+
+    let newProject = {};
+        newProject.title = newProjectTitle,
+        newProject.action = newProjectAction,
+        newProject.time = "00:00:00",
+        newProject.totalTime = "00:00:00",
+        newProject.recordingData = []
+    
+    projects.unshift(newProject);
+
+    saveToStorage();
+    updateSidebar();
+    updateContent();
+    toggleMenu();
+};
+
+
+
+
+
+// Display sidebar project buttons
+
+const projectBtnContainer = document.querySelector(".project-btn-container");
+const projectBtn = document.getElementsByClassName("project-button");
+
+const updateSidebar = () => {
+    
+    projectBtnContainer.innerHTML = '';
+
+    projects.forEach(project => {
+        let projectBtn = document.createElement("button");
+        projectBtn.classList.add("project-button");
+        projectBtn.setAttribute("id", `${project.title}`)
+        projectBtn.innerHTML = 
+            `<p>${project.title}</p>
+            <p class="grey">${project.totalTime}</p>`;
+        projectBtnContainer.appendChild(projectBtn);
+    });
+
+    for (const btn of projectBtn) {
+        btn.addEventListener("click", () => {
+            updateContent(btn.id);
+            screen.width < 1200 ? toggleMenu() : false;
+        });
+    };
+};
+
+
+
+
+
+// Change main content
+
+const contentTitle = document.querySelector(".content-title");
+const contentAction = document.getElementById("content-action");
+const clockDisplay = document.querySelector(".clock-display");
+const currentTimer = document.querySelector(".current-timer");
+const totalTime = document.querySelector(".total-time");
+const recordingList = document.querySelector(".recording-list");
+let activeProject;
+
+const updateContent = (target) => {
+
+    if(projects[0] === undefined) {
+        contentTitle.innerHTML = "Make a new project";
+        contentAction.innerHTML = "Via the sidebar";
+        currentTimer.style.display = "none";
+
+    } else if (target === undefined) {
+        activeProject = projects[0];
+
+    } else if (target !== undefined) {
+        activeProject = projects.find(project => project.title === target);
+    };
+
+    contentTitle.innerHTML = activeProject.title;
+    contentAction.innerHTML = activeProject.action;
+    clockDisplay.innerHTML = activeProject.time;
+    currentTimer.style.display = "none" ? currentTimer.style.display = "block" : false;
+    totalTime.innerHTML = "Total time recorded : " + activeProject.totalTime;
+    updateRecordingList();
+};
+
+
+
+
+// Delete selected project
+
+const deleteProjectBtn = document.querySelector(".delete-project");
+
+deleteProjectBtn.addEventListener("click", () => {
+    let projectToDelete = prompt("Type the name of the project you wish to delete.");
+
+    if(!projectBtnContainer.innerHTML.includes(projectToDelete)) {
+        alert("That project doesn't exist");
+    }
+    else {
+        const removeFromArray = projects.map(
+            project => project.title).indexOf(projectToDelete);
+        projects.splice(removeFromArray, 1);
+            
+        saveToStorage();
+        updateSidebar();
+        updateContent();
+    }
+});
+
+
+
+
+// Edit action title
+
+contentAction.addEventListener("click", () => {
+    newActionTitle = prompt("What is your current action-item?", contentAction.innerHTML);
+
+    newActionTitle === null ? newActionTitle = contentAction.innerHTML : false;
+
+    while(newActionTitle.length < 1 || newActionTitle.length > 25) {
+        newActionTitle = prompt("Title must be between 1 and 25 characters long.")
+    };
+
+    contentAction.innerHTML = newActionTitle;
+    activeProject.action = newActionTitle;
+    saveToStorage();
+});
+
+
+
+
+
+
+
+
+
+
+/*  CLOCK DISPLAY  */
+
+
 // Start-pause toggle
 
-const clockDisplay = document.querySelector(".clock-display");
 const startButton = document.querySelector(".start-button");
 let playIcon = document.querySelector("#play-icon");
 const startButtonP = document.getElementById("start-p");
@@ -144,9 +239,10 @@ startButton.addEventListener("click", () => {
         clearInterval(stopWatch.intervalId);
         playIcon.className = "fas fa-play";
         startButtonP.innerHTML = "start";
+        activeProject.time = clockDisplay.innerHTML;
+        saveToStorage();
     }
 });
-
 
 
 
@@ -173,9 +269,6 @@ function displayTime(hours, minutes, seconds) {
 
 
 
-
-
-
 // reset timer
 
 const resetButton = document.querySelector(".reset-button");
@@ -192,61 +285,87 @@ const restartTimer = () => {
     stopWatch.elapsedTime = 0;
     stopWatch.startTime = Date.now();
     displayTime(0, 0, 0);
+    saveToStorage(contentTitle.innerHTML, "time", "00:00:00");
 };
 
 
 
 
-// add new entry to time recorded list if it passes checks
+
+
+
+/*   RECORDING LIST   */
+
+
+// add new entry to time recording list if it passes checks
 
 const addButton = document.querySelector(".add-button");
-const list = document.querySelector(".list");
-let duplicates = false;
 
 addButton.addEventListener("click", () => {
     !paused ? alert("Please pause timer first") : 
-    list.innerHTML.includes(action.innerHTML) ? alert("Please change the action title")
-    : createEntry(), restartTimer();
+    recordingList.innerHTML.includes(contentAction.innerHTML) 
+        ? alert("Please change the action title")
+        : createListItem();
 });
 
-const createEntry = () => {
-    let newListItem = document.createElement("li");
-    newListItem.classList.add("list-item");
 
-    newListItem.innerHTML = 
-        `<section>
-            <div class="entry-info">
-                <p class="title">${action.innerHTML}</p>
-                <p class="grey time">${clockDisplay.innerHTML}</p>
-            </div>
-            <ul class="entry-buttons">
-                <li>
-                    <button class="edit-button">
-                        <i class="fas fa-edit"></i>
-                    </button>
-                </li>
-                <li>
-                    <button class="delete-button">
-                        <i class="fas fa-trash"></i>
-                    </button>
-                </li>
-            </ul>
-        </section>`
-    ;
 
-    list.prepend(newListItem);
+const createListItem = () => {
+
+    let newDataItem = {
+        action: contentAction.innerHTML, 
+        time: clockDisplay.innerHTML
+    };
+
+    activeProject.recordingData.unshift(newDataItem);
+    restartTimer();
+    saveToStorage();
+    updateRecordingList();
+};
+
+
+
+
+const updateRecordingList = () => {
+
+    recordingList.innerHTML = "";
+
+    activeProject.recordingData.forEach(item => {
+        let newListItem = document.createElement("li");
+        newListItem.classList.add("list-item");
+
+        newListItem.innerHTML = 
+            `<section>
+                <div class="entry-info">
+                    <p class="title">${item.action}</p>
+                    <p class="grey time">${item.time}</p>
+                </div>
+                <ul class="entry-buttons">
+                    <li>
+                        <button class="edit-button">
+                            <i class="fas fa-edit"></i>
+                        </button>
+                    </li>
+                    <li>
+                        <button class="delete-button">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </li>
+                </ul>
+            </section>`
+        ;
+
+        recordingList.appendChild(newListItem);
+    });
     sumTime();
 };
 
 
 
 
-
-
-
 // delete & edit buttons
 
-list.addEventListener("click", (event) => {
+recordingList.addEventListener("click", (event) => {
     event.target.classList.contains("fa-trash") ? deleteItem(event)
     : event.target.classList.contains("fa-edit") ? editItem(event)
     : false;
@@ -254,38 +373,58 @@ list.addEventListener("click", (event) => {
 
 
 const deleteItem = (event) => {
-    let targetLi = event.target.parentElement.parentElement.parentElement.parentElement;
-    const deleteCheck = prompt("To delete please type 'DELETE'");
-    deleteCheck === "DELETE" ? targetLi.remove() : false // do nothing
+    let deleteButtons = document.querySelectorAll(".delete-button");
 
-    sumTime();
+    deleteButtons.forEach((button, index) => {
+        if (button.contains(event.target)) {
+            let deleteCheck = prompt("To delete please type 'DELETE'");
+            if(deleteCheck === "DELETE") { 
+                activeProject.recordingData = activeProject.recordingData.filter(
+                    item => item !== activeProject.recordingData[index]);
+                saveToStorage();
+                updateRecordingList();
+                sumTime();
+            };
+        };
+    });
 };
+
+
 
 const editItem = (event) => {
-    let targetItem = event.target.parentElement.parentElement.parentElement.parentElement;
-        let title = targetItem.firstElementChild.firstElementChild
-        let time = title.nextElementSibling
 
-    let changeTitle = prompt("Change the title", title.innerHTML);
-        // validate input
-        while(changeTitle.length < 1 || changeTitle.length > 25) {
-            changeTitle = prompt("Title must be between 1 & 25 characters.", title.innerHTML)
-        };
+    let editButtons = document.querySelectorAll(".edit-button");
 
-        title.innerHTML = changeTitle;
+    editButtons.forEach((button, index) => {
 
-    let changeTime = prompt("Change the time. Format hh:mm:ss", time.innerHTML);
-        // validate input through regular expression
-        let regex = /^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/;
+        if (button.contains(event.target)) {
 
-        while(!changeTime.match(regex) || changeTime.length !== 8 ) {
-            changeTime = prompt("Format must be hh:mm:ss. Numbers only.", time.innerHTML)
-        };
+            let currentAction = activeProject.recordingData[index].action;
+            let currentTime = activeProject.recordingData[index].time;
+
+            let editAction = prompt("Change the action title", currentAction);
+            // validate input
+            if(editAction === null) { return };
+            while(editAction.length < 1 || editAction.length > 25) {
+                editAction = prompt("Action must be between 1 & 25 characters.", currentAction)
+            };
+
+
+            let editTime = prompt("Change the time. Format hh:mm:ss", currentTime);
+            // validate input through regular expression
+            let regex = /^(?:(?:([01]?\d|2[0-3]):)?([0-5]?\d):)?([0-5]?\d)$/;
+            while(!editTime.match(regex) || editTime.length !== 8 ) {
+                editTime = prompt("Format must be hh:mm:ss. Numbers only.", currentTime)
+            };
         
-        time.innerHTML = changeTime;
+            activeProject.recordingData[index].action = editAction;
+            activeProject.recordingData[index].time = editTime;
+        };
+    });
 
-        sumTime();
-};
+    updateRecordingList();
+    sumTime();
+}
 
 
 
@@ -294,28 +433,27 @@ const editItem = (event) => {
 
 // Total time recorded
 
-const totalTime = document.querySelector(".total-time");
-totalTime.innerHTML = "Total time recorded :" + " 00:00:00";
-
-
 const sumTime = () => {
 
-    let timeRecorded = [];
     let sumSeconds = 0;
 
-    const itemTime = document.querySelectorAll(".time");
-    
-    itemTime.forEach(item => {
-        timeRecorded.push(item.innerHTML);
-    });
-
-    timeRecorded.forEach(entry => {
-        let timeEntry = entry.split(":");
-        let subSeconds = +timeEntry[0] * 60 * 60 + +timeEntry[1] * 60 + +timeEntry[2];
+    for(const item of activeProject.recordingData) {
+        let itemTime = item.time.split(":");
+        let subSeconds = +itemTime[0] * 60 * 60 + +itemTime[1] * 60 + +itemTime[2];
         sumSeconds += subSeconds;
-    })
+    };
 
     let timeTotal = new Date(sumSeconds * 1000).toISOString().substr(11,8);
-    
-    totalTime.innerHTML = `Total time recorded :` + ` ${timeTotal}`;
+
+    totalTime.innerHTML = `Total time recorded : ${timeTotal}`;
+    activeProject.totalTime = timeTotal;
+    saveToStorage();
+    updateSidebar(); // to display correct total time
+
 };
+
+
+// Fetch all content on window load
+
+updateSidebar();
+updateContent();

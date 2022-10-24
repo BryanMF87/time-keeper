@@ -16,11 +16,12 @@
             <h4>Project Directory</h4>
             <button class="new-project grey">
                 <i class="far fa-folder-open"></i>
-                <p>Start a new project</p>
+                <p>Start new project</p>
             </button>
-            <button>
-                <p>Project time keeper</p>
-                <p class="grey">03:20:16</p>
+            <div class="project-btn-container"></div>
+            <button class="delete-project grey">
+                <i class="fas fa-trash"></i>
+                <p>Delete project</p>
             </button>
         </sidebar>
        
@@ -44,15 +45,15 @@
 
             <div class="content">
                 <section class="title-card">
-                    <h1>Monkey Island Battleship</h1>
+                    <h1 class="content-title"></h1>
                     <div class="grey">
                         <i class="fas fa-edit"></i>
-                        <p id="action">Adding music & sound</p>
+                        <p id="content-action"></p>
                     </div>
                 </section>
 
                 <section class="current-timer">
-                    <div class="clock-display">00:00:00</div>
+                    <div class="clock-display"></div>
                     <ul class="timer-buttons">
                         <li>
                             <button class="start-button">
@@ -75,8 +76,8 @@
                     </ul>
                 </section>
 
-                <h3 class="total-time">Total time recorded: 03:10:12</h3>
-                <ul class="list"></ul>
+                <h3 class="total-time"></h3>
+                <ul class="recording-list"></ul>
             </div> <!-- end content -->
 
             <footer>
