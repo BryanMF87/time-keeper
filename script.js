@@ -104,22 +104,23 @@ const addProject = (newProjectTitle, newProjectAction) => {
 // Display sidebar project buttons
 
 const projectBtnContainer = document.querySelector(".project-btn-container");
-const projectBtn = document.getElementsByClassName("project-button");
 
 const updateSidebar = () => {
     
     projectBtnContainer.innerHTML = '';
 
     projects.forEach(project => {
-        let projectBtn = document.createElement("button");
-        projectBtn.classList.add("project-button");
-        projectBtn.setAttribute("id", `${project.title}`)
-        projectBtn.innerHTML = 
+        let btn = document.createElement("button");
+        btn.classList.add("project-button");
+        btn.setAttribute("id", `${project.title}`)
+        btn.innerHTML = 
             `<p>${project.title}</p>
             <p class="grey">${project.totalTime}</p>`;
-        projectBtnContainer.appendChild(projectBtn);
+        projectBtnContainer.appendChild(btn);
     });
 
+    const projectBtn = document.querySelectorAll(".project-button");
+    
     for (const btn of projectBtn) {
         btn.addEventListener("click", () => {
             updateContent(btn.id);
@@ -142,7 +143,17 @@ const totalTime = document.querySelector(".total-time");
 const recordingList = document.querySelector(".recording-list");
 let activeProject;
 
+const getContent = (activeProject) => {
+    contentTitle.innerHTML = activeProject.title;
+    contentAction.innerHTML = activeProject.action;
+    clockDisplay.innerHTML = activeProject.time;
+    currentTimer.style.display = "none" ? currentTimer.style.display = "block" : false;
+    totalTime.innerHTML = "Total time recorded : " + activeProject.totalTime;
+    updateRecordingList();
+};
+
 const updateContent = (target) => {
+
 
     if(projects[0] === undefined) {
         contentTitle.innerHTML = "Make a new project";
@@ -151,17 +162,12 @@ const updateContent = (target) => {
 
     } else if (target === undefined) {
         activeProject = projects[0];
+        getContent(activeProject);
 
     } else if (target !== undefined) {
         activeProject = projects.find(project => project.title === target);
+        getContent(activeProject);
     };
-
-    contentTitle.innerHTML = activeProject.title;
-    contentAction.innerHTML = activeProject.action;
-    clockDisplay.innerHTML = activeProject.time;
-    currentTimer.style.display = "none" ? currentTimer.style.display = "block" : false;
-    totalTime.innerHTML = "Total time recorded : " + activeProject.totalTime;
-    updateRecordingList();
 };
 
 
