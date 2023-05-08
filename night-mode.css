@@ -113,12 +113,12 @@ body, html {
     transition: all .5s ease;
 }
 
-h1 { font-size: 25px }
-h2 { font-size: 22px }
-h3 { font-size: 20px }
-h4 { font-size: 18px }
-.small { font-size: 14px }
-.medium { font-size: 20px }
+h1 { font-size: 1.563rem }
+h2 { font-size: 1.375rem }
+h3 { font-size: 1.25rem }
+h4 { font-size: 1.125rem }
+.small { font-size: 0.875rem }
+.medium { font-size: 1.25rem }
 
 .container {
     justify-self: center;
@@ -142,7 +142,7 @@ nav {
     .logotype {
         display: flex;
         align-items: center;
-        gap: 10px;
+        gap: 0.625rem;
     }
 
         .logotype h2 {
@@ -153,7 +153,7 @@ nav {
             padding: .35rem .5rem .25rem .5rem;
             border-radius: .25rem;
             color: var(--ccPurple);
-            border: 2px solid var(--ccPurple);
+            border: 0.125rem solid var(--ccPurple);
             transition: background .2s, color .2s;
         }
 
@@ -164,25 +164,25 @@ nav {
 
     .theme-switch {
         display: flex;
-        gap: 5px;
+        gap: 0.313rem;
         align-items: center;
     }
 
         .sun {
-            font-size: 14px;
+            font-size: 0.875rem;
             color: var(--ccWhite); 
         }
 
         .moon {
-            font-size: 13px;
+            font-size: 0.813rem;
             color: var(--ccPurple);
         }
 
         .switch {
             position: relative;
             display: inline-block;
-            width: 52px;
-            height: 27px;
+            width: 3.25rem;
+            height: 1.688rem;
         }
 
         .switch input { 
@@ -199,7 +199,7 @@ nav {
             right: 0;
             bottom: 0;
             background-color: #000;
-            border: .5px solid #000;
+            border: 0.031rem solid #000;
             -webkit-transition: .4s;
             transition: .4s;
         }
@@ -207,10 +207,10 @@ nav {
         .slider:before {
             position: absolute;
             content: "";
-            height: 18px;
-            width: 18px;
-            left: 4px;
-            bottom: 4px;
+            height: 1.125rem;
+            width: 1.125rem;
+            left: 0.25rem;
+            bottom: 0.25rem;
             background-color: var(--ccPurple);
             -webkit-transition: .4s;
             transition: .4s;
@@ -221,14 +221,14 @@ nav {
         }
     
         input:checked + .slider:before {
-            -webkit-transform: translateX(26px);
-            -ms-transform: translateX(26px);
-            transform: translateX(26px);
+            -webkit-transform: translateX(1.625rem);
+            -ms-transform: translateX(1.625rem);
+            transform: translateX(1.625rem);
         }
         
         /* Rounded sliders */
         .slider.round {
-            border-radius: 34px;
+            border-radius: 2.125rem;
         }
         
         .slider.round:before {
@@ -242,13 +242,13 @@ nav {
 
 aside {
     position: fixed;
-    top: 60px;
+    top: 3.75rem;
     display: flex;
     flex-direction: column;
     background: var(--ccDark);
     text-align: left;
     width: 100%;
-    height: calc(100% - 60px);
+    height: calc(100% - 3.75rem);
     overflow-y: hidden;
     transition: transform 0.2s ease-in-out;
     transform: translateX(-100%);
@@ -265,15 +265,18 @@ aside {
         align-items: center;
     }
 
+    aside button:hover {
+        color: var(--ccPurple);
+    }
+
     aside .new-project, .delete-project {
         color: var(--ccPurple);
         justify-content: left;
-        gap: 10px;
+        gap: 0.625rem;
     }
 
-    aside button:hover {
-        background: var(--ccPurple);
-        color: var(--ccDark);
+    aside .new-project:hover, .delete-project:hover {
+        color: var(--ccWhite);
     }
 
 .project-btn-container {
@@ -299,7 +302,7 @@ footer{
 
 main {
     background-color: var(--ccGrey);
-    height: calc(100% - 64px);
+    height: calc(100% - 4rem);
     overflow-y: scroll;
     padding: 1.5rem 0;
     -ms-overflow-style: none; /*IE & Edge*/
@@ -313,7 +316,7 @@ main::-webkit-scrollbar{
 section {
     background: var(--ccDark);
     padding: 1.5rem 0;
-    border-radius: 10px;
+    border-radius: 0.625rem;
     margin: 0 1.5rem;
 }
 
@@ -321,14 +324,14 @@ section {
     margin-bottom: 1rem;
 }
     .clock-display {
-        font-size: 60px;
+        font-size: 3.75rem;
     }
 
     .title-card div {
         display: flex;
         justify-content: center;
         align-items: middle;
-        gap: 5px;
+        gap: 0.313rem;
         margin-top: .5rem;
         font-style: italic;
         cursor: pointer;
@@ -347,7 +350,7 @@ section {
     }
 
     .timer-buttons li button {
-        font-size: 22px;
+        font-size: 1.375rem;
         padding: .5rem .7rem;
         margin-bottom: .25rem;
         background: var(--ccPurple);
@@ -386,7 +389,7 @@ section {
     }
 
     .entry-buttons p {
-        font-size: 12px;
+        font-size: 0.75rem;
         margin-top: .25rem;
     }
 
@@ -439,11 +442,11 @@ section {
     .container {
         position: relative;
         display: flex;
-        gap: 25px;
+        gap: 1.563rem;
         margin: 1rem;
         padding-top: 1rem;
         width: 100%;
-        max-width: 1200px;
+        max-width: 75rem;
         border-radius: 1rem;
         height: calc(100vh - 2rem);
     }
@@ -486,7 +489,7 @@ section {
 
 @media (max-width: 400px) {
     .content-title {
-        max-width: 200px; /* set maximum width */
+        max-width: 12.5rem; /* set maximum width */
         margin: 0 auto;
         white-space: nowrap; /* prevent line breaks */
         overflow: hidden; /* hide extra text */
