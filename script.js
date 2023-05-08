@@ -10,34 +10,28 @@ const saveToStorage = () => {
 // sidebar toggle
 
 const menuBtn = document.querySelector(".menu");
-const sideBar = document.querySelector("sidebar");
+const sideBar = document.querySelector("aside");
 
-const toggleMenu = () => {
-    sideBar.style.display === "none" ? 
-    sideBar.style.display = "flex" :
-    sideBar.style.display = "none";
-};
+const toggleSidebar = () => {
+    sideBar.classList.toggle('open');
+}
 
-menuBtn.addEventListener("click", toggleMenu);
-
-
+menuBtn.addEventListener("click", toggleSidebar);
 
 
 
 // theme toggle
 
-const themeSwitcher = document.querySelector("input");
-const theme = document.querySelector('link');
+const stylesheet = document.querySelector('link[rel="stylesheet"]');
+const switchInput = document.querySelector(".switch input");
 
-themeSwitcher.addEventListener("click", () => {
-    theme.getAttribute("href") == "style.css" ? 
-    theme.setAttribute("href", "night-mode.css") : 
-    theme.setAttribute("href", "style.css")
+switchInput.addEventListener("change", () => {
+  if (switchInput.checked) {
+    stylesheet.href = "night-mode.css";
+  } else {
+    stylesheet.href = "style.css";
+  }
 });
-
-
-
-
 
 
 // Create new project through prompt input
@@ -94,11 +88,13 @@ const addProject = (newProjectTitle, newProjectAction) => {
     saveToStorage();
     updateSidebar();
     updateContent();
-    toggleMenu();
 };
 
 
-
+// truncate long titles on small screen sizes
+const truncateString = (str, maxLength) => {
+    return str.length > maxLength ? `${str.slice(0, maxLength - 3)}...` : str;
+};
 
 
 // Display sidebar project buttons
@@ -106,31 +102,26 @@ const addProject = (newProjectTitle, newProjectAction) => {
 const projectBtnContainer = document.querySelector(".project-btn-container");
 
 const updateSidebar = () => {
-    
-    projectBtnContainer.innerHTML = '';
-
-    projects.forEach(project => {
-        let btn = document.createElement("button");
-        btn.classList.add("project-button");
-        btn.setAttribute("id", `${project.title}`)
-        btn.innerHTML = 
-            `<p>${project.title}</p>
-            <p class="grey">${project.totalTime}</p>`;
-        projectBtnContainer.appendChild(btn);
+    const projectBtnContainer = document.querySelector(".project-btn-container");
+    const projectBtns = projects.map(project => {
+        // If screen width is less than 350 reduce title to 17 characters max  
+      const title = truncateString(project.title, sideBar.offsetWidth < 350 ? 17 : Infinity);
+      const btn = document.createElement("button");
+      btn.classList.add("project-button");
+      btn.setAttribute("id", project.title);
+      btn.innerHTML = `
+        <p>${title}</p>
+        <p>${project.totalTime}</p>
+      `;
+      btn.addEventListener("click", () => {
+        toggleSidebar();
+        updateContent(btn.id);
+      });
+      return btn;
     });
-
-    const projectBtn = document.querySelectorAll(".project-button");
-    
-    for (const btn of projectBtn) {
-        btn.addEventListener("click", () => {
-            updateContent(btn.id);
-            screen.width < 1200 ? toggleMenu() : false;
-        });
-    };
+    projectBtnContainer.innerHTML = "";
+    projectBtns.forEach(btn => projectBtnContainer.appendChild(btn));
 };
-
-
-
 
 
 // Change main content
@@ -153,8 +144,6 @@ const getContent = (activeProject) => {
 };
 
 const updateContent = (target) => {
-
-
     if(projects[0] === undefined) {
         contentTitle.innerHTML = "Make a new project";
         contentAction.innerHTML = "Via the sidebar";
@@ -255,7 +244,6 @@ startButton.addEventListener("click", () => {
 
 
 // start the timer
-
 const startClock = () => {
     stopWatch.startTime = Date.now();
     stopWatch.intervalId = setInterval(() => {
@@ -329,42 +317,36 @@ const createListItem = () => {
     updateRecordingList();
 };
 
-
-
+const main = document.querySelector('main');
 
 const updateRecordingList = () => {
-
-    recordingList.innerHTML = "";
-
-    activeProject.recordingData.forEach(item => {
-        let newListItem = document.createElement("li");
-        newListItem.classList.add("list-item");
-
-        newListItem.innerHTML = 
-            `<section>
-                <div class="entry-info">
-                    <p class="title">${item.action}</p>
-                    <p class="grey time">${item.time}</p>
-                </div>
-                <ul class="entry-buttons">
-                    <li>
-                        <button class="edit-button">
-                            <i class="fas fa-edit"></i>
-                        </button>
-                    </li>
-                    <li>
-                        <button class="delete-button">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </li>
-                </ul>
-            </section>`
-        ;
-
-        recordingList.appendChild(newListItem);
-    });
+    const recordingList = document.querySelector(".recording-list");
+    recordingList.innerHTML = activeProject.recordingData.map(item => {
+      return `
+        <li class="list-item">
+          <section>
+            <div class="entry-info">
+              <p class="title">${truncateString(item.action, main.offsetWidth < 375 ? 17 : Infinity)}</p>
+              <p class="time">${item.time}</p>
+            </div>
+            <ul class="entry-buttons">
+              <li>
+                <button class="edit-button">
+                  <i class="fas fa-edit"></i>
+                </button>
+              </li>
+              <li>
+                <button class="delete-button">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </li>
+            </ul>
+          </section>
+        </li>
+      `;
+    }).join("");
     sumTime();
-};
+  };
 
 
 
@@ -435,8 +417,6 @@ const editItem = (event) => {
 
 
 
-
-
 // Total time recorded
 
 const sumTime = () => {
@@ -463,3 +443,11 @@ const sumTime = () => {
 
 updateSidebar();
 updateContent();
+
+
+// Listening for title truncation on smaller screen sizes
+
+window.addEventListener('resize', () => {
+    updateSidebar();
+    updateRecordingList();
+});

@@ -1,4 +1,4 @@
-/***
+/* **
     The new CSS reset - version 1.7.3 (last updated 7.8.2022)
     GitHub page: https://github.com/elad2412/the-new-css-reset
 ***/
@@ -90,183 +90,236 @@ meter {
 @import url('https://fonts.googleapis.com/css2?family=Imprima&display=swap');
 
 :root {
-    --orange: #F33737;
-    --grey: #9f9f9f; 
+    --ccWhite: #FEFEFE;
+    --ccGrey: #EDEDEF;
+    --ccDarkGrey: #828282;
+    --ccBackground: #39394D;
+    --ccDark: #2A2A3A;
+    --ccBlue: #0C72EC;
+    --ccYellow: #FDC528;
 }
+
 body {
     font-family: 'Imprima', sans-serif;
-    background: #f5f5f5;
+    color: var(--ccDark);
+    -ms-overflow-style: none; /*IE & Edge*/
+    scrollbar-width: none; /*Firefox*/
+}
+
+body::-webkit-scrollbar{
+    display: none; /*Chrome, Safari, Opera, etc*/
+}
+
+body, html {
+    transition: all .2s ease;
 }
 
 h1 { font-size: 25px }
 h2 { font-size: 22px }
 h3 { font-size: 20px }
 h4 { font-size: 18px }
-.grey { color: var(--grey)}
 .small { font-size: 14px }
 .medium { font-size: 20px }
 
-sidebar {
-    position: absolute;
+.container {
+    justify-self: center;
+    text-align: center;
+    background: var(--ccWhite);
+    height: 100vh;
+}
+
+
+/* \/ \/ \/ Navbar content \/ \/ \/ */
+
+nav { 
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between; 
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: var(--ccWhite);
+}
+
+    .logotype {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .logotype h2 {
+            display: none;
+        }
+
+        .logotype button {
+            padding: .35rem .5rem .25rem .5rem;
+            border-radius: .25rem;
+            color: var(--ccBlue);
+            border: 2px solid var(--ccBlue);
+            transition: background .2s, color .2s;
+        }
+
+        .logotype button:hover {
+            color: var(--ccWhite);
+            background: var(--ccBlue);
+        }
+
+    .theme-switch {
+        display: flex;
+        gap: 5px;
+        align-items: center;
+    }
+
+        .sun {
+            font-size: 14px;
+            color: var(--ccYellow); 
+        }
+
+        .moon {
+            font-size: 13px;
+            color: var(--ccBlue);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 52px;
+            height: 27px;
+        }
+
+        .switch input { 
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--ccDark);
+            border: .5px solid var(--ccDark);
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--ccWhite);
+            -webkit-transition: .4s;
+            transition: .4s;
+        }
+
+        input:checked + .slider {
+            background-color: var(--ccDark);
+        }
+    
+        input:focus + .slider {
+            box-shadow: 0 0 1px var(--ccDark);
+        }
+    
+        input:checked + .slider:before {
+            -webkit-transform: translateX(26px);
+            -ms-transform: translateX(26px);
+            transform: translateX(26px);
+        }
+        
+        /* Rounded sliders */
+        .slider.round {
+            border-radius: 34px;
+        }
+        
+        .slider.round:before {
+            border-radius: 50%;
+        }
+
+
+
+
+/* \/ \/ \/ Sidebar content \/ \/ \/ */
+
+aside {
+    position: fixed;
     top: 60px;
     display: flex;
     flex-direction: column;
-    background: #f5f5f5;
+    background: var(--ccWhite);
     text-align: left;
-    width: 90%;
-    height: 100%;
+    width: 100%;
+    height: calc(100% - 60px);
+    overflow-y: hidden;
+    transition: transform 0.2s ease-in-out;
+    transform: translateX(-100%);
 }
-
-    sidebar h4 {
-        padding: 1rem 1.5rem;
-        background: #eee;
+    aside.open {
+        transform: translateX(0);
     }
 
-    sidebar button {
+    aside button {
         width: 100%;
         padding: .75rem 1.5rem;
-        background: none;
-        border-top: 1px solid #eee;
-        border-radius: 0;
-        box-shadow: none;
         display: flex;
         justify-content: space-between;
         align-items: center;
     }
 
-    sidebar .new-project, .delete-project {
+    aside .new-project, .delete-project {
+        color: var(--ccBlue);
         justify-content: left;
         gap: 10px;
     }
 
+    aside button:hover {
+        background: var(--ccBlue);
+        color: var(--ccWhite);
+    }
+
 .project-btn-container {
-    max-height: 60%;
+    max-height: 100%;
     overflow-y: scroll;
-}
+    -ms-overflow-style: none; /*IE & Edge*/
+    scrollbar-width: none; /*Firefox*/
+}  
 
     .project-btn-container::-webkit-scrollbar {
         display: none;
     }
 
-    .project-btn-container {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    }
-
-.container {
-    margin: 0 5%;
-    justify-self: center;
+footer{
+    color: var(--ccDarkGrey);
     text-align: center;
-}
-
-nav { 
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
     padding: 1rem 0;
+    margin-top: auto;
 }
 
-.logotype {
-    display: flex;
-    align-items: center;
-    gap: 10px;
+
+/* \/ \/ \/ Main content \/ \/ \/ */
+
+main {
+    background-color: var(--ccGrey);
+    height: calc(100% - 64px);
+    overflow-y: scroll;
+    padding: 1.5rem 0;
+    -ms-overflow-style: none; /*IE & Edge*/
+    scrollbar-width: none; /*Firefox*/
 }
 
-    .logotype h2 {
-        display: none;
-    }
-
-    .logotype button {
-        box-shadow: none;
-        color: var(--orange);
-    }
-
-    .logotype button:hover {
-        color: black;
-    }
-
-.theme-switch {
-    display: flex;
-    gap: 5px;
-    align-items: center;
+main::-webkit-scrollbar{
+    display: none; /*Chrome, Safari, Opera, etc*/
 }
-
-    .sun {
-        color: var(--orange);
-        font-size: 14px;
-    }
-
-    .moon {
-        font-size: 13px;
-    }
-
-    .switch {
-        position: relative;
-        display: inline-block;
-        width: 52px;
-        height: 27px;
-    }
-
-    .switch input { 
-        opacity: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #fff;
-        border: .5px solid #3b3b3b;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    .slider:before {
-        position: absolute;
-        content: "";
-        height: 18px;
-        width: 18px;
-        left: 4px;
-        bottom: 4px;
-        background-color: black;
-        -webkit-transition: .4s;
-        transition: .4s;
-    }
-
-    input:checked + .slider {
-        background-color: var(--grey);
-    }
-  
-    input:focus + .slider {
-        box-shadow: 0 0 1px var(--grey);
-    }
-  
-    input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-    }
-    
-    /* Rounded sliders */
-    .slider.round {
-        border-radius: 34px;
-    }
-    
-    .slider.round:before {
-        border-radius: 50%;
-    }
 
 section {
     background: white;
-    padding: 1.5rem 1rem;
+    padding: 1.5rem 0;
     border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px, rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+    margin: 0 1.5rem;
 }
 
 .title-card, .current-timer, .clock-display {
@@ -279,19 +332,16 @@ section {
     .title-card div {
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: middle;
         gap: 5px;
         margin-top: .5rem;
         font-style: italic;
         cursor: pointer;
+        color: var(--ccBlue);
     }
 
     .title-card div:hover {
-        opacity: 80%;
-    }
-
-    .hours, .minutes, .seconds {
-        font-size: 50px;
+        opacity: 50%;
     }
 
     .timer-buttons {
@@ -305,23 +355,19 @@ section {
         font-size: 22px;
         padding: .5rem .7rem;
         margin-bottom: .25rem;
+        background: var(--ccBlue);
+        color: var(--ccWhite);
+        border-radius: .5rem;
+        transition: background .2s, color .2s;
     }
 
-button {
-    background: #f5f5f5;
-    padding: .25rem .5rem;
-    border: 1px solid #e5e5e5;
-    border-radius: .35rem;
-    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-}
-
-    button:hover {
-        color: var(--orange);
-        box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px 0px inset;
+    .timer-buttons li button:hover {
+        background: none;
+        color: var(--ccBlue);
     }
 
 .total-time {
-    margin: 2rem 0 1.5rem 0;
+    margin: 1.5rem 0;
 }
 
 .list-item {
@@ -349,11 +395,14 @@ button {
         margin-top: .25rem;
     }
 
-footer {
-    color: var(--grey);
-    padding: 1rem 0 1.5rem 0;
-}
+    .entry-buttons li button {
+        color: var(--ccBlue);
+        transition: color .2s;
+    }
 
+    .entry-buttons li button:hover {
+        color: var(--ccDark);
+    }
 
 
 @media screen and (min-width: 400px) {
@@ -362,39 +411,90 @@ footer {
     }
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 550px) {
+    .entry-info {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+    }
 
+    .entry-buttons {
+        margin-left: 4rem;
+    }
+}
+
+@media screen and (min-width: 678px) {
+    .container {
+        background: var(--ccWhite);
+        padding: 0 1rem 1rem 1rem;
+    }
+
+    .project-btn-container {
+        padding-right: 2rem; 
+    }
+}
+
+@media screen and (min-width: 1000px) {
     body {
-        padding: 0 5%;
+        background: var(--ccBackground);
+        display: flex;
+        justify-content: center;
     }
 
     .container {
+        position: relative;
         display: flex;
         gap: 25px;
-        margin: 65px auto 0 auto;
-        max-width: 1500px;
+        margin: 1rem;
+        padding-top: 1rem;
+        width: 100%;
+        max-width: 1200px;
+        border-radius: 1rem;
+        height: calc(100vh - 2rem);
     }
-
-    sidebar {
-        position: static;
-        flex: 1;
-    }
-
-        sidebar h4 {
-            border-radius: 10px 10px 0 0;
-        }
 
     nav {
         position: absolute;
-        top: 0px;
+        top: 1rem;
         left: 0;
         right: 0;
-        width: 90%;
-        max-width: 1500px;
-        margin: 0 auto;
+        width: 99%;
+        background: none;
+        z-index: 10;
+    }
+
+    aside {
+        position: static;
+        flex: 1;
+        transform: translateX(0);
+        padding: 4rem 0 0 .5rem;
+        height: 100%;
+    }
+
+    aside button {
+        padding-inline: 0;
+    }
+
+    .project-btn-container {
+        padding-right: 0rem; 
     }
 
     main {
         flex: 2;
+        border-radius: 0 1rem 1rem 0;
+        padding-top: 4rem;
+        height: 100%;
     }
 }
+
+/* truncate long content-title on small screens*/
+
+@media (max-width: 400px) {
+    .content-title {
+        max-width: 200px; /* set maximum width */
+        margin: 0 auto;
+        white-space: nowrap; /* prevent line breaks */
+        overflow: hidden; /* hide extra text */
+        text-overflow: ellipsis; /* show ellipsis when text is truncated */
+    }
+  }

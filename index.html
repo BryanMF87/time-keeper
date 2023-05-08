@@ -12,79 +12,79 @@
 <body>
 
     <div class="container">
+        <nav>
+            <div class="logotype">
+                <button class="menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h2>Project Time Keeper</h2>
+            </div>
+            <div class="theme-switch">
+                <div class="sun">
+                    <i class="fas fa-sun"></i>
+                </div>
+                <label class="switch">
+                    <input type="checkbox">
+                    <span class="slider round"></span>
+                </label>
+                <div class="moon">
+                    <i class="fas fa-moon"></i>
+                </div>
+            </div>
+        </nav>
 
-        <sidebar>
-            <h4>Project Directory</h4>
-            <button class="new-project grey">
+        <aside>
+            <button class="new-project">
                 <i class="far fa-folder-open"></i>
                 <p>Start new project</p>
             </button>
-            <div class="project-btn-container"></div>
-            <button class="delete-project grey">
+            <div class="project-btn-container">
+                <!-- Project title/time will map here  -->
+            </div>
+            <button class="delete-project">
                 <i class="fas fa-trash"></i>
                 <p>Delete project</p>
             </button>
-        </sidebar>
+            <footer>
+                <p>Made with love by Bryan Fink <i>©</i> 2023</p>
+            </footer>
+        </aside>
        
         <main>
-            <nav>
-                <div class="logotype">
-                    <button class="menu">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                    <h2>Project Time Keeper</h2>
+            <section class="title-card">
+                <h1 class="content-title"></h1>
+                <div>
+                    <i class="fas fa-edit"></i>
+                    <p id="content-action"></p>
                 </div>
-                <div class="theme-switch">
-                    <div class="sun"><i class="fas fa-sun"></i></div>
-                    <label class="switch">
-                        <input type="checkbox">
-                        <span class="slider round"></span>
-                    </label>
-                    <div class="moon"><i class="fas fa-moon"></i></div>
-                </div>
-            </nav>
+            </section>
 
-            <div class="content">
-                <section class="title-card">
-                    <h1 class="content-title"></h1>
-                    <div class="grey">
-                        <i class="fas fa-edit"></i>
-                        <p id="content-action"></p>
-                    </div>
-                </section>
+            <section class="current-timer">
+                <div class="clock-display"></div>
+                <ul class="timer-buttons">
+                    <li>
+                        <button class="start-button">
+                            <i class="fas fa-play" id="play-icon"></i>
+                        </button>
+                        <p class="small" id="start-p">start</p>
+                    </li>
+                    <li>
+                        <button class="add-button">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                        <p class="small">add</p>
+                    </li>
+                    <li>
+                        <button class="reset-button">
+                            <i class="fas fa-redo"></i>
+                        </button>
+                        <p class="small">reset</p>
+                    </li>
+                </ul>
+            </section>
 
-                <section class="current-timer">
-                    <div class="clock-display"></div>
-                    <ul class="timer-buttons">
-                        <li>
-                            <button class="start-button">
-                                <i class="fas fa-play" id="play-icon"></i>
-                            </button>
-                            <p class="small" id="start-p">start</p>
-                        </li>
-                        <li>
-                            <button class="add-button">
-                                <i class="fas fa-plus"></i>
-                            </button>
-                            <p class="small">add</p>
-                        </li>
-                        <li>
-                            <button class="reset-button">
-                                <i class="fas fa-redo"></i>
-                            </button>
-                            <p class="small">reset</p>
-                        </li>
-                    </ul>
-                </section>
-
-                <h3 class="total-time"></h3>
-                <ul class="recording-list"></ul>
-            </div> <!-- end content -->
-
-            <footer>
-                <p>Made with love by Bryan Fink <i>©</i> 2022</p>
-            </footer>
-
+            <h3 class="total-time"></h3>
+            <ul class="recording-list"></ul>
         </main>
     </div>
 
